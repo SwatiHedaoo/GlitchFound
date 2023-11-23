@@ -1,0 +1,75 @@
+
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:wght@300&family=Oxygen&family=Roboto:wght@500&family=Ubuntu:wght@300&display=swap');
+
+body{
+    color: #172B4D;
+    font-family: 'Fira Sans','Oxygen', 'Roboto','Ubuntu',sans-serif;
+    font-size: 14px;
+/* font-family: 'Oxygen', sans-serif;
+font-family: 'Roboto', sans-serif;
+font-family: 'Ubuntu', sans-serif;
+} */
+}
+.first-col{
+    height: 100vh;
+    overflow-y: auto;
+
+}
+.heading-hover :hover{
+    background-color: rgb(194, 189, 189);
+}
+.description-div:hover{
+    background-color: rgb(229, 222, 222);
+}
+.description-div img{
+    height: 150px;
+    width: 300px;
+}
+.desciption p{
+    margin: 0;
+}
+.attachment .card{
+    height: 150px;
+    width: 300px;
+}
+.attachment-card p{
+    margin: 0;
+}
+.activity p{
+    margin: 0;
+}
+
+input[type="file"] {
+    display: none;
+  }
+  .custom-file-upload { 
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    color: #0747a6 !important;
+  }
+.circle-div{
+    height: 50px;
+    width: 75px
+}
+.circle-div p{
+    padding-bottom: 5px;
+}
+.comment p{
+    font-size: 12px;
+}
+.comment button{
+    font-size: 12px;
+    border-radius: none !important;
+    padding: 0 5px;
+}
+.details-card{
+    height: 50%;
+    width: 23%;
+    padding-top: 5px;
+    text-align: center;
+
+}
+.configure p{
+    font-size: 13px;
+}

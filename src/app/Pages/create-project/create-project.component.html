@@ -1,0 +1,169 @@
+<div class="row pt-3">
+  <div class="col-12">
+    <div class="row pt-2">
+      <div class="col-3">
+        <h4>Projects</h4>
+      </div>
+      <div class="col-9 text-end">
+        <button class="btn btn-sm btn-primary" data-toggle="modal" data-target="#myModal" (click)="openModel()">Create
+          Project</button>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-2">
+          <div class="small fw-light"></div>
+          <div class="input-group">
+              <input class="form-control border-end-0 border" type="search" (input)="onSearch()"
+               [(ngModel)]="searchText" name="searchText">
+              <span class="input-group-append">
+                  <button class="btn btn-outline-secondary bg-white border-start-0 border-bottom-0 border ms-n5" type="button">
+                      <i class="fa fa-search"></i>
+                  </button>
+              </span>
+          </div>
+      </div>
+  </div>
+    <table class="table">
+      <thead>
+        <tr >
+          <th  style="font-size: 15px;">Short Name</th>
+          <th style="font-size: 15px;">Full Name</th>
+          <th style="font-size: 15px;">Project Lead</th>
+          <th style="font-size: 15px;">Team Size</th>
+          <th style="font-size: 15px;">Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!isLoader && projectList.length != 0">
+        <tr *ngFor="let project of sortedProjectList">
+          <td>{{project.shortName}}</td>
+          <td>{{project.fullName}}</td>
+          <td>{{project.leadingByUserName}}</td>
+          <td>{{project.teamSize}}</td>
+          <td>
+            <button class="btn btn-sm btn-warning" (click)="onEdit(project.projectId)">Edit</button>
+            <button class="btn btn-sm btn-danger ms-2" (click)="onDelete(project.projectId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="isLoader">
+        <tr>
+          <td colspan="5" class="text-center">
+            <div class="spinner-border text-muted"></div>
+            <div class="spinner-border text-primary"></div>
+            <div class="spinner-border text-success"></div>
+            <div class="spinner-border text-info"></div>
+            <div class="spinner-border text-warning"></div>
+            <div class="spinner-border text-danger"></div>
+            <div class="spinner-border text-secondary"></div>
+            <div class="spinner-border text-dark"></div>
+            <div class="spinner-border text-light"></div>
+          </td>
+        </tr>
+      </tbody>
+      <tbody *ngIf="projectList.length == 0">
+        <tr>
+          <td colspan="5" class="text-center">
+             No Records Found
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal" id="myModal" style="height: 600px;overflow-y: auto;">
+  <div class="modal-dialog modal-l">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header bg-white">
+        <h4 class="modal-title">Create Project</h4>
+        <button type="button" class="btn btn-close" data-bs-dismiss="modal" (click)="closeModal(frm)"></button>
+      </div>
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form #frm="ngForm">
+          <div class="row">
+            <div class="col-6">
+              <label style="font-size: 12px;">Short Name</label>
+              <input type="text" class="form-control" placeholder="Enter" [(ngModel)]="projectForm.shortName"
+                name="shortName" maxlength="4" #sname="ngModel" required>
+              <div *ngIf="sname.touched || sname.dirty">
+                <span class="text-danger" *ngIf="sname.errors && sname.errors['required']">This is required</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <label style="font-size: 12px;">Full Name</label>
+              <input type="text" class="form-control" placeholder="Enter" [(ngModel)]="projectForm.fullName"
+                name="fullName" #fname="ngModel" required>
+              <div *ngIf="fname.touched || fname.dirty">
+                <span class="text-danger" *ngIf="fname.errors && fname.errors['required']">This is required</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label style="font-size: 12px;">Lead By</label>
+              <select class="form-control" [(ngModel)]="projectForm.leadBy" name="leadBy" #lead="ngModel" required>
+                <option value="null" selected disabled>Select</option>
+                <option *ngFor="let user of userList" [value]="user.userId">{{user.emailId}}</option>
+              </select>
+              <div *ngIf="lead.touched || lead.dirty">
+                <span class="text-danger" *ngIf="lead.errors && lead.errors['required']">This is required</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <label style="font-size: 12px;">Team Size</label>
+              <input type="text" class="form-control" placeholder="Enter" [(ngModel)]="projectForm.teamSize"
+                name="teamSize" #tsize="ngModel" required>
+              <div *ngIf="tsize.touched || tsize.dirty">
+                <span class="text-danger" *ngIf="tsize.errors && tsize.errors['required']">This is required</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label style="font-size: 12px;">Start Date</label>
+              <input #startDate type="date" class="form-control" placeholder="Enter" [(ngModel)]="projectForm.startDate"
+                name="startDate" id="txtStartDate" #startdate="ngModel" required min="{{todayDate | date:'yyyy-MM-dd'}}">
+              <div *ngIf="startdate.touched || startdate.dirty">
+                <span class="text-danger" *ngIf="startdate.errors && startdate.errors['required']">This is
+                  required</span>
+              </div>
+            </div>
+            <div class="col-6">
+              <label style="font-size: 12px;">End Date</label>
+              <input type="date" class="form-control" placeholder="Enter" [(ngModel)]="projectForm.expectedEndDate"
+                name="expectedEndDate" id="txtEndDate" #enddate="ngModel" required [min]="startDate.value">
+              <div *ngIf="enddate.touched || enddate.dirty">
+                <span class="text-danger" *ngIf="enddate.errors && enddate.errors['required']">This is required</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-9">
+              <label style="font-size: 12px;">Technology</label>
+              <input type="text" class="form-control" placeholder="Enter" [(ngModel)]="projectForm.technologyStack"
+                name="technologyStack" #tech="ngModel" required>
+              <div *ngIf="tech.touched || tech.dirty">
+                <span class="text-danger" *ngIf="tech.errors && tech.errors['required']">This is required</span>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <!-- Modal footer -->
+      <div class="modal-footer  bg-white">
+        <button type="button" class="btn btn-sm btn-primary" *ngIf="projectForm.projectId==0" [disabled]="!frm.valid"
+          (click)="saveProject(frm)">
+          <span class="spinner-border spinner-border-sm" *ngIf="isbtnLoader"></span>Create</button>
+
+        <button type="button" class="btn btn-sm btn-primary" *ngIf="projectForm.projectId!=0" [disabled]="!frm.valid"
+          (click)="updateProject(frm)">
+          <span class="spinner-border spinner-border-sm" *ngIf="isbtnLoader"></span>Update</button>
+
+        <button type="button" class="btn btn-sm btn-outline-secondary" data-bs-dismiss="modal"
+          (click)="closeModal(frm)">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>

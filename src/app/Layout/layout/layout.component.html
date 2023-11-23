@@ -1,0 +1,172 @@
+<nav class="navbar navbar-expand-lg mynav  fixed-top pb-0 pt-0">
+  <div class="container-fluid">
+    <a (click)="openSidebar()" class="navbar-brand align-self-baseline"> 
+      
+      <img src="assets/img/glichlogo.svg"  style="height: 35px" alt="brand-logo"></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02"
+      aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 text-dark">
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-dark content-hover" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Your Work
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item">Assigned To Me</a></li>
+            <li><a class="dropdown-item">Recent</a></li>
+            <li><a class="dropdown-item" routerLink="Board">Board</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-dark content-hover" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Projects
+          </a>
+          <ul class="dropdown-menu">
+            <div *ngIf="projectList.length!=0" style="overflow-y: auto;max-height: 200px;">
+              <label style="font-size: 11px; padding-left: 5px;">STARRED</label>
+              <li *ngFor="let item of projectList;">
+                <a class="dropdown-item" (click)="changeProject(item.projectId)">{{item.fullName}}</a>
+              </li>
+            </div>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" *ngIf="loggedUser.role ==1" routerLink="createProject">All Project</a></li>
+           
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" routerLink="createProject" *ngIf="loggedUser.role ==1" (click)="openProjectModal()">Create New Project</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-dark content-hover" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Filters
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="filterIssue">Filter Issue</a></li>
+          </ul>
+        </li>
+        <!-- <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle text-dark content-hover"  role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Dashboard
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" >Action</a></li>
+            <li><a class="dropdown-item" >Another action</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" >Something else here</a></li>
+          </ul>
+        </li> -->
+        <li class="nav-item dropdown" *ngIf="loggedUser.role ==1">
+          <a class="nav-link dropdown-toggle text-dark content-hover" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Teams
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="users">Users</a></li>
+            <li><a class="dropdown-item" routerLink="User-Assign">Project Assignment</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item" routerLink="users" (click)="openUserModel()">New User</a></li>
+          </ul>
+        </li>
+        <li class="nav-item dropdown" *ngIf="loggedUser.role ==1">
+          <a class="nav-link dropdown-toggle text-dark content-hover" role="button" data-bs-toggle="dropdown"
+            aria-expanded="false">
+            Master
+          </a>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" routerLink="status">Status</a></li>
+            <li><a class="dropdown-item" routerLink="issue-type">Issue Types</a></li>
+            <li>
+              <hr class="dropdown-divider">
+            </li>
+            <li><a class="dropdown-item">Coming Soon</a></li>
+          </ul>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" (click)="openModel()" aria-current="page"><button
+              class="btn bg-primary p-0 px-1  text-white">Create</button></a>
+        </li>
+      </ul>
+      <form class="d-flex" role="search">
+        <input class="form-control " type="search" placeholder="Search" aria-label="Search">
+        <div class="bg-primary rounded-circle text-white w-25 h-15 py-2 text-center" role="button" data-bs-toggle="dropdown"
+        aria-expanded="false">
+          {{loggedUser.emailId |slice:0:2}}
+        </div>
+
+        <button class="btn  btn-sm pe-2 log-out "  type="submit" (click)="Logout()">
+           <i class="fa fa-sign-out"></i>
+        </button>
+
+
+
+
+      </form>
+    </div>
+  </div>
+</nav>
+<div class="container-fluid">
+  <div class="row" style="padding-top: 35px;">
+    <div *ngIf="isSideBar" class="col-2 sidebar px-0" style="height:100vh; background-color: lightgray;">
+      <!-- <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white"> -->
+      <div class="position-sticky">
+        <div class="list-group list-group-flush mt-4">
+          <a class="list-group-item list-group-item-action py-2 ripple"><i class="fas fa-lock fa-fw me-1"></i>
+            <span *ngIf="selectedProject.length != 0">
+              {{selectedProject.fullName}}
+            </span>
+            <span *ngIf="selectedProject.length == 0">
+              {{recentProject?.fullName}}
+            </span>
+          </a>
+          <a routerLink="Board" class="list-group-item list-group-item-action py-2 ripple">
+            <i class="fas fa-solid fa-clipboard-list me-3"></i><span>Board</span>
+          </a>
+          <a class="list-group-item list-group-item-action py-2 ripple"><i
+              class="fas fa-lock fa-fw me-3"></i><span>Roadmap</span></a>
+          <a class="list-group-item list-group-item-action py-2 ripple"><i
+              class="fas fa-chart-line fa-fw me-3"></i><span>Code</span></a>
+          <a class="list-group-item list-group-item-action py-2 ripple">
+            <i class="fas fa-chart-pie fa-fw me-3"></i><span>Project Pages</span>
+          </a>
+          <a class="list-group-item list-group-item-action py-2 ripple"><i
+              class="fas fa-chart-bar fa-fw me-3"></i><span>Add Shortcut</span></a>
+          <a class="list-group-item list-group-item-action py-2 ripple"><i
+              class="fas fa-globe fa-fw me-3"></i><span>Project Setting</span></a>
+        </div>
+      </div>
+      <!-- </nav> -->
+    </div>
+    <div  [ngClass]="isSideBar?'col-10':'col-12'">
+      <div class="container-fluid pt-2">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal" id="newTicketModel">
+  <div class="modal-dialog modal-lg ">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Create Issue</h4>
+        <button type="button" class="btn-close" (click)="closeModel()" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body ">
+        <app-issue *ngIf="isModelOpen"></app-issue>
+      </div>
+    </div>
+  </div>
+</div>

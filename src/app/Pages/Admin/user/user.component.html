@@ -1,0 +1,124 @@
+<div class="row">
+  <div class="col-md-12 ">
+
+    <div class="row p-3">
+      <h4>Users</h4>
+    </div>
+
+      <div class="col-4">
+        <div class="d-flex mb-3">
+          <!-- top head -->
+          <input class="form-control mx-3" type="search" placeholder="Search For Users" aria-label="Search">
+          <button class="btn btn-outline-success" type="submit">
+            <i class="fas fa-search"></i>
+          </button>
+          <button class="btn btn-sm btn-primary addUser" (click)="openmodal()">Add Users</button>
+        </div>
+      </div>
+
+
+    <div class="row pt-1">
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="font-size: 12px;">Email </th>
+              <th style="font-size: 12px;">Role</th>
+              <th style="font-size: 12px;">Technical Stack</th>
+              <th style="font-size: 12px;">Logo</th>
+              <th style="font-size: 12px;" class="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody *ngIf="usersarr.length != 0">
+            <tr *ngFor="let project of usersarr">
+              <td>{{project.emailId}}</td>
+              <td>{{project.roleName}}</td>
+              <td>{{project.technicalStack | uppercase}}</td>
+              <td>
+                <img [src]="project.userLogo" alt="" srcset="">
+             </td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-secondary" (click)="edituser(project.userId)" (click)="openmodal()">Edit</button>
+                <button class="btn btn-sm btn-danger" (click)="deleteuser(project.userId)" >Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<form #userform="ngForm"  >
+  <div class="modal" id="myModal">
+    <div class="modal-dialog">
+      <div class="modal-content">
+
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">Create User</h4>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closemodal()"></button>
+        </div>
+
+        <!-- Modal body -->
+
+        <div class="modal-body">
+          <label for="">Email Id</label>
+          <input type="email" name="email" class="form-control" placeholder="Enter Email Id" #email="ngModel" required
+            pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{1,63}$" [(ngModel)]="usersObj.emailId"
+            [class.is-invalid]="email.touched && email.invalid">
+          <div>
+            <span class="text-danger" *ngIf="email.touched && email.invalid && email.errors?.['required']">This Is
+              Required</span>
+            <span class="text-danger" *ngIf="email.errors?.['pattern']">Email Not Proper</span>
+          </div>
+
+          <label for="">Password</label>
+          <input type="password" name="password" class="form-control" placeholder="Enter Password" required
+            minlength="4" maxlength="10" #password="ngModel" [(ngModel)]="usersObj.password"
+            [class.is-invalid]="password.touched && password.invalid">
+          <div>
+            <span class="text-danger" *ngIf="password.touched && password.invalid">Required</span>
+          </div>
+
+
+          <label>Select Role</label>
+          <select name="role" id="" class="dropdown-toggle form-select" [(ngModel)]="usersObj.role">
+            <option value="" selected>select</option>
+            <option [value]="roles.roleId" *ngFor="let roles of rolesarr">{{roles.role}}</option>
+            <!--[value]="pkg.packageId"-->
+          </select>
+
+          <div class="py-2">
+            <label for="">Active : </label>
+            <input type="checkbox" name="isactive" id="" [(ngModel)]="usersObj.isActive">
+          </div>
+
+          <div>
+            <label for="">Technical Stack</label>
+            <input type="text" placeholder="TechnicalStack" name="TechnicalStack" class="form-control"
+              #technicalstack="ngModel" [(ngModel)]="usersObj.technicalStack"
+              [class.is-invalid]="technicalstack.touched && technicalstack.invalid" required minlength="4"
+              maxlength="10">
+          </div>
+          <div>
+            <span class="text-danger" *ngIf="technicalstack.touched && technicalstack.invalid">Required</span>
+          </div>
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button class="btn btn-sm btn-secondary" (click)="userform.reset()">Reset</button>
+          <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal" (click)="saveUser()">Save</button>
+          <!-- <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closemodal()">Close</button> -->
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>

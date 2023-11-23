@@ -1,0 +1,331 @@
+<div class=" container-fluid">
+  <div class="row ">
+    <div class="col-8 first-col px-3">
+
+      <div class="row">
+        <div class="col-12 ">
+          <div class="heading-hover"  *ngIf ="!isEditSummary">
+            <h3 (click)="editSummary()">{{ticketData?.summary}}</h3> 
+          </div>
+          <input type="text" *ngIf="isEditSummary" [(ngModel)]="ticketData.summary" class="form-control">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-10">
+          <!-- <button type="button" class="btn btn-light attach me-1"><i class="fa-solid fa-paperclip"></i>Attach</button>
+          <button type="button" class="btn btn-light child-issue me-1">Add a child issue</button>
+        
+          <button type="button" class="btn btn-light" data-bs-toggle="modal" data-bs-target="#myModal"><i
+              class="fa-solid fa-link"></i>
+            Log
+          </button>
+          <button type="button" class="btn btn-light down-arrow border-start "><i class="fa fa-angle-down"></i></button> -->
+        </div>
+        <div class="col-2 d-flex" *ngIf="isEditSummary">
+          <button type="button" class="btn btn-sm btn-light attach me-1" (click)="onUpdate()"><i class="fa-solid fa-check"></i></button>
+          <button type="button" class="btn btn-sm btn-light attach me-1"(click)="onCancel()"><i class="fa-solid fa-xmark"></i></button>
+
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 mt-3 desciption">
+          <p class="fw-semibold pb-2">Description</p>
+          <div class="description-div  pb-3 px-1 " *ngIf="!isEditDescription" (click)="editDescription()"
+            [innerHTML]="ticketData?.description">
+          </div>
+          <div *ngIf="isEditDescription">
+            <div class="row">
+              <p-editor name='description' [(ngModel)]="ticketData.description" [style]="{ height: '250px' }">
+              </p-editor>
+            </div>
+            <div class="row pt-2">
+              <div class="col-1">
+                <button class="btn btn-sm btn-info" (click)="onUpdate()">Save</button>
+              </div>
+              <div class="col-1">
+                <button class="btn btn-sm btn-outline-secondary" (click)="isEditDescription = false">Cancel</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <label for="">Attachment <span *ngIf="attchment.length !== 0">({{attchment.length}})</span></label>
+        </div>
+        <div class="col-6 text-end">
+          <label class="custom-file-upload">
+            <input type="file" (change)="onUploadFile($event)" />
+            <i class="fa fa-cloud-arrow-up"></i>
+            Upload Your Attachment
+          </label>
+        </div>
+      </div>
+      <div class="row"> 
+          <ng-container *ngIf="attchment.length == 0">
+            <div class="col-12  text-center" >
+              <div class="pt-2 pb-2" style="background-color: lightgray;">
+                <p>No Attachment Present</p>
+              </div> 
+            </div>
+          </ng-container>
+          <ng-container *ngIf="attchment.length !== 0">
+            <div class="col-3" *ngFor="let item of attchment">
+              <div class="card" (click)="openAttach(item.attachmentFileName)">
+                <img [src]="imgUrl+item.attachmentFileName" style="height: 90px;" class="card-img-top" alt="...">
+
+                <div class="card-footer">
+                  <div class="row">
+                    <div class="col-12">
+                      <small>{{item.attachmentFileName}}</small>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-container>
+
+        </div> 
+
+      <div class="row">
+        <div class="col-12 mt-5">
+          <p class="fw-semibold">Activity</p>
+          <div class="d-flex justify-content-between">
+            <div>
+              <span>Show :</span>
+              <button type="button" class="btn btn-light attach me-2"> All</button>
+              <button type="button" class="btn btn-light attach me-2 active commnets-btn">
+                Comments</button>
+              <button type="button" class="btn btn-light attach me-2"> History</button>
+            </div>
+
+            <!-- <div>
+              <button type="button" class="btn btn-light attach me-2"><i class="fa  fa-bars-sort"></i>
+                Oldest First </button>
+            </div> -->
+          </div>
+
+        </div>
+      </div>
+      <div class="row pt-2">
+        <div class="col-1">
+          <div class="bg-primary rounded-circle text-white w-65 h-15 py-2 text-center" role="button"
+            data-bs-toggle="dropdown" aria-expanded="false">{{loggedUser.emailId |slice:0:2}}
+          </div>
+        </div>
+        <div class="col-11">
+          <input type="text" class="form-control" *ngIf="!isVisible" (click)="isVisible=true">
+          <p-editor name='comment' [(ngModel)]="commentObj.comment" *ngIf="isVisible"></p-editor>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-1">
+
+        </div>
+        <div class="col-11 pt-2" *ngIf="isVisible">
+          <button class="btn btn-sm btn-success" (click)="AddComment()">Save</button>
+          <button class="btn btn-sm btn-danger mx-2" (click)="isVisible=false">Cancel</button>
+        </div>
+      </div>
+
+      <div class="col-12 mt-4" *ngFor="let item of comment">
+        <div class="row activity">
+          <div class="col-2 circle-div">
+            <div class="rounded-circle bg-dark text-center h-75 w-75 py-1">
+              <p class="text-white">SB</p>
+            </div>
+          </div>
+          <div class="col-10">
+            <div class="d-flex">
+              <p class="me-3 fw-semibold">Shankar bokade</p>
+              <p>3 days ago</p>
+            </div>
+            <div>
+              <p><span>
+                  <div class="description-div  pb-3 px-1 " [innerHTML]="item.comment"> 
+                  </div>
+                </span></p>
+            </div>
+            <!-- <div> 
+              <p><a class="me-1 text-decoration-none text-muted fw-semibold"  >Edit</a>.
+                <a class="me-1 text-decoration-none text-muted fw-semibold"  >Delete</a>.
+                <button type="button" class="btn btn-light attach me-1">
+                  <i class="fa-solid fa-face-smile"></i></button>
+              </p>
+            </div> --> 
+          </div>
+        </div> 
+      </div> 
+    </div>
+    <!-- seccond column -->
+    <div class="col-4 second-col">
+      <div class="">
+        <div class="row">
+          <div class="col-12">
+            <select class="bg-light border-light p-2 me-1"  (change)="onUpdate()"  [(ngModel)]="ticketData.statusId">
+              <option *ngFor="let user of status" [value]="user.statusId">{{user.status}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mt-3">
+              <div class="card">
+                <div class="card-header bg-white d-flex justify-content-between">
+                  <p>Your pinned fields</p>
+                  <span><i class="fa fa-angle-down ms-2"></i></span>
+
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-4">
+                      <p class="text-secondary">Assignee</p>
+                    </div>
+                    <div class="col-8 align-items-center">
+                      <div class="d-flex">
+                        <select [disabled]="!isCreator" (change)="onUpdate()" [(ngModel)]="ticketData.assignedTo" class="form-control form-control-sm">
+                          <option title="{{user.userEmail}}" *ngFor="let user of allUsers" [value]="user.userId">
+                            {{user.userEmail |slice:0:20}}</option>
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row pt-1">
+                    <div class="col-4">
+                      <p>Reporter</p> 
+                    </div>
+                    <div class="col-8"> -{{ticketData.reporter}}
+                      <select [(ngModel)]="ticketData.reporter" disabled class="form-control form-control-sm">
+                        <option *ngFor="let user of wholeUsers" [value]="user.userId">{{user.fullName |slice:0:20}}
+                        </option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12">
+            <div class="mt-3">
+              <div class="card">
+                <div class="card-header bg-white d-flex justify-content-between">
+                  <p>Details</p>
+                  <span><i class="fa fa-angle-down ms-2"></i></span>
+                </div>
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-6">
+                      <p class="text-secondary">Story Point</p>
+                    </div>
+                    <div class="col-6">
+                      <p class="fw-bold text-secondary">{{ticketData.storyPoint}} hrs</p>
+                    </div>
+                    <div class="col-6">
+                      <p class=" text-secondary">Reporter</p>
+                    </div>
+                    <div class="col-6">
+                      <p class="fw-bold text-secondary">{{ticketData.priority}}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-12">
+            <div class="d-flex justify-content-between configure">
+              <p class=" ">Created last week</p>
+            </div>
+          </div>
+          <div class="col-12 configure">
+            <p> Updated 3 days ago</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- seccond column -->
+
+</div>
+
+<div class="modal" id="attachModel">
+  <div class="modal-dialog modal-lg">
+
+    <div class="modal-content">
+      <div class="modal-body text-end">
+        <button type="button" class="btn btn-danger" (click)="closeAttach()">Close</button>
+        <img style="height: 70vh;" [src]="imgUrl+attachPhoto" class="card-img-top" alt="...">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+
+
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-4 d-flex">
+            <label for="">Time Spend </label>
+            <p class="text-danger ms-2">*</p>
+          </div>
+          <div class="col-8">
+            <input type="text" class="form-control" name="time" [(ngModel)]="logTimeObj.time">
+            <p>(eg.3Wd 4d 12h) <i class="fa-solid fa-question"></i></p>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-4">
+
+          </div>
+          <div class="col-8">
+            <p>An estimate of how much time you have spent working </p>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-4 d-flex">
+            <label for="">Date Start </label>
+            <p class="text-danger ms-2">*</p>
+          </div>
+          <div class="col-8">
+            <input type="date" class="form-control" name="logDate" [(ngModel)]="logTimeObj.logDate">
+
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-4 d-flex">
+            <label for="">Work Description </label>
+            <p class="text-danger ms-2">*</p>
+          </div>
+          <div class="col-8 mt-2">
+            <textarea cols="38" rows="8" name="logComments" [(ngModel)]="logTimeObj.logComments"></textarea>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- Modal footer -->
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" data-bs-dismiss="modal" (click)="onLog()">Log</button>
+
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+      </div>
+
+    </div>
+  </div>
+</div>

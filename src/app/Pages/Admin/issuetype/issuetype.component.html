@@ -1,0 +1,78 @@
+<!-- All status data in box -->
+<div class="row">
+  <div class="col-12">
+
+      <div class="d-flex justify-content-between m-4">
+        <h5 class="text-dark">All Issue Type</h5>
+      </div>
+
+        <div class="col-4">
+          <div class="d-flex mb-3">
+            <!-- top head -->
+            <input class="form-control mx-3" type="search" placeholder="Search issue type" aria-label="Search">
+            <button class="btn btn-outline-primary" type="submit"><i class="fas fa-search"></i></button>
+            <button class="btn btn-primary btn-sm addStatus" (click)="openIssue()">Add Issue Type</button>
+          </div>
+        </div>
+
+
+      <!-- box code -->
+      <div class="row">
+        <div class="col-4" *ngFor="let item of issueTypeArray;let sr=index">
+          <div class="card m-2 mx-3">
+            <div class="card-body">
+              <div class="text-start p-2">
+                <p class="text-dark"><b>Issue Type: </b>{{item.issueType}}</p>
+
+                <div class="class">
+                  <button class="btn btn-light btn-sm" (click)="onEdite(item)"><i class="fas fa-edit"></i></button>
+                  <button class="btn btn-light btn-sm mx-2" (click)="onDelete(item.issueTypeId)"><i
+                      class="fa-solid fa-trash-can"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+  </div>
+</div>
+
+<!-- modal form  -->
+
+<div class="modal mt-5" id="myModal">
+
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h6 class="modal-title">Add Issue Type</h6>
+        <button type="button" class="btn-close" (click)="closeIssue()" data-bs-dismiss="modal"></button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-6 mb-3">
+            <label for="">Issue Type</label>
+            <input type="text" name="issueType" class="form-control" [(ngModel)]="issueTypeObj.issueType" placeholder="Issue type">
+          </div>
+
+        </div>
+
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <div class="">
+            <button type="button" class="btn btn-secondary btn-sm mx-3" (click)="onReset()">Reset</button>
+            <button type="button" class="btn btn-primary btn-sm" *ngIf="issueTypeObj.issueTypeId === 0"
+              (click)="addIssueType()">Save</button>
+            <button type="button" class="btn btn-success btn-sm" *ngIf="issueTypeObj.issueTypeId !== 0"
+              (click)="updateIssueType()">Update</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

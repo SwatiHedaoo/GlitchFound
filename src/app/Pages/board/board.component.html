@@ -1,0 +1,87 @@
+
+<div class="row pt-4">
+  <div class="col-12">
+    <div class="d-flex justify-content-between">
+      <div>
+        <h4>{{selectedProjectData.fullName}}</h4>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="row mt-3">
+  <div class="col-12">
+    <div class="d-flex">
+      <div class="">
+        <input type="text" class="form-control" placeholder="search" [(ngModel)]="searchObj.SearchText" (ngModelChange)="filterIssues($event)">
+      </div>
+      <div class="px-2" style="padding-top: 6px;" *ngIf="loggedUser.role == 1">
+        <span class="text-white mx-2" title="{{user.userEmail}}" [ngClass]="selecetdUserId == user.userId? 'user-selected bg-primary':'user'" *ngFor="let user of allUsers" (click)="selectUser(user.userId)">{{user.userEmail |slice:0:2}}</span>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="row pt-1">
+  <div class="col" *ngFor="let item of status"  (dragover)="onDragOver($event,item)" (drop)="onDrop($event, item)" [id]="item.statusId" >
+    <div class="card card-bg" >
+      <div class="card-header border-0 py-1">
+        {{item.status}} <span *ngIf="getIssueByStatusId(item.statusId).length !== 0"> {{getIssueByStatusId(item.statusId).length}} issue</span>
+      </div>
+      <div class="card-body  ticket-bg border" [id]="item.statusId">
+        <ng-container *ngIf="getIssueByStatusId(item.statusId).length == 0">
+          <p class="text-center">
+            No Tickets
+          </p>
+        </ng-container>
+        <ng-container *ngIf="getIssueByStatusId(item.statusId).length !== 0">
+          <div class="card-Body-Hover m-1 rounded-1 task"  [id]="item.statusId"  draggable="true" (dragstart)="onDragStart($event,ticket)"  *ngFor="let ticket of getIssueByStatusId(item.statusId)"
+          draggable="true"  >
+            <div class="my-1 fw-bold" (click)="openTicketModel(ticket.issueId, ticket.issueGuid)">
+              {{ticket.summary}}
+            </div>
+            <div class="row">
+              <div class="col-3">
+                <p class="text-muted space-font m-0 pointer" (click)="openTicket(ticket.issueId)">{{ticket.issueGuid}}</p>
+              </div>
+              <div class="col-9 text-end" (click)="openTicketModel(ticket.issueId, ticket.issueGuid)">
+                <p class="text-muted space-font m-0">{{ticket.assignedToUser}}</p>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12 text-end">
+                <span>{{ticket.storyPoint}} hrs</span>
+              </div>
+            </div>
+
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Button trigger modal -->
+
+
+<!-- Modal -->
+
+<div class="modal" id="myModal" >
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h6 class="modal-title">
+          <i class="fa fa-square-check "> </i> {{openGuid}}
+        </h6>
+        <button type="button" class="btn-close" (click)="closeTicketModel()" data-bs-dismiss="modal"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-12" *ngIf="openIssueId != 0">
+            <app-view-ticket-page [issueId]="openIssueId" (onUpdateEvent)="onUpdate()"> </app-view-ticket-page>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

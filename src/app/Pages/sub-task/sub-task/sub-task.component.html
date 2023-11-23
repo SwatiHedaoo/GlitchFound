@@ -1,0 +1,118 @@
+<p>sub-task works!</p>
+
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6">
+      <h5>Sub Task</h5>
+    </div>
+    <div class="col-6">
+      <button class="btn btn-sm" type="button" (click)="openModal()" style="font-size: 40px;">+</button>
+    </div>
+  </div>
+</div>
+
+<form #issueform="ngForm" (ngSubmit)="issue(issueform.value)">
+  <div class="container">
+    <div class="modal" id="myModals">
+      <div class="modal-dialog modal-dialog-scrollable modal-dialog modal-lg overflow-auto">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title">Create Sub Task</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closeModal()"></button>
+          </div>
+          <div class="row">
+            <div class="col-12">
+              <div class="modal-body">
+                <div class="row p-2">
+                  <div class="col-6">
+                    <label>Select Project</label>
+                    <select name="packageId" class="dropdown-toggle form-select" [(ngModel)]="issueClassObj.projectId">
+                      <option value="" selected>select</option>
+                      <option [value]="project.projectId" *ngFor="let project of projectarr">{{project.fullName}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row p-2">
+                  <div class="col-6">
+                    <label>Selected Issue</label>
+                    <select name="role" id="" class="dropdown-toggle form-select" [(ngModel)]="issueClassObj.issueType">
+                      <option value="" selected>select</option>
+                      <option [value]="issue.issueTypeId" *ngFor="let issue of issueArr">{{issue.issueType}}</option>
+                    </select>
+                  </div>
+                  <!-- <a href="">Learn More</a> -->
+                </div>
+                <div class="row p-2">
+                  <div class="col-6">
+                    <label>Select Issue Type</label>
+                    <select name="role" id="" class="dropdown-toggle form-select" [(ngModel)]="issueClassObj.issueType">
+                      <option value="" selected>select</option>
+                      <option [value]="issue.issueTypeId" *ngFor="let issue of issueArr">{{issue.issueType}}</option>
+                    </select>
+                  </div>
+                  <!-- <a href="">Learn More</a> -->
+                </div>
+                <hr>
+                <div class="row p-2">
+                  <div class="col-6">
+                    <label>Status</label>
+                    <select name="packageId" class="dropdown-toggle form-select" [(ngModel)]="issueClassObj.statusId">
+                      <option value="" selected>select</option>
+                      <option [value]="issstatus.statusId" *ngFor="let issstatus of issuestatusarr">{{issstatus.status}}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row p-2 ">
+                  <div class="row ">
+                    <div class="col-12">
+                      <label for="">Summary</label> <br>
+                      <input type="text" class="form-control" name="summary" [(ngModel)]="issueClassObj.summary">
+                    </div>
+                  </div>
+                  <div class="p-2">
+                    <label for="">Description</label>
+                    <textarea name="description" id="" rows="4" class="form-control"
+                      [(ngModel)]="issueClassObj.description"></textarea>
+                  </div>
+                  <div class="row p-2">
+                    <div class="col-6">
+                      <label>Assignee</label>
+                      <select name="packageId" class="dropdown-toggle form-select"
+                        [(ngModel)]="issueClassObj.assignedTo">
+                        <option value="" selected>select</option>
+                        <option [value]="user.userId" *ngFor="let user of usersArr">{{user.emailId}}</option>
+                      </select>
+                    </div>
+                    <div class="row p-2">
+                      <div class="col-md-6">
+                        <label for="">Reporter</label>
+                        <input type="text" class="form-control" name="reporter" [(ngModel)]="issueClassObj.reporter">
+                      </div>
+                    </div>
+                    <!-- <div class="row p-2">
+                      <div class="col-md-6">
+                        <label for="">Parent</label>
+                        <input type="text" class="form-control" name="parentId" [(ngModel)]="issueClassObj.parentId">
+                      </div>
+                    </div> -->
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                      <div style="float:inline-start;"> <input type="checkbox"><span>Create another issue</span></div>
+                      <!-- <button class="btn btn-sm ">Cancel</button> -->
+                      <button class="btn btn-sm btn-secondary" (click)="issueform.reset()">Reset</button>
+                      <button class="btn btn-sm btn-primary" [class.disabled]="issueform.form.invalid"
+                        *ngIf="issueClassObj.issueId==0" (click)="createIssue()">Create</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>

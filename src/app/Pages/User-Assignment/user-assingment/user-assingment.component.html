@@ -1,0 +1,156 @@
+<div class="row">
+  <div class="col-md-12 ">
+    <div class="row p-3">
+      <h4 class="col-md-10">Project-User Assignment</h4>
+    </div>
+    <div class="col-4">
+      <div class="d-flex mb-3">
+        <!-- top head -->
+        <input class="form-control mx-3" type="search" placeholder="Search For Users" aria-label="Search">
+        <button class="btn btn-outline-success" type="submit">
+          <i class="fas fa-search"></i>
+        </button>
+        <button type="button" class="btn btn-primary btn-sm addUser" data-bs-toggle="modal" data-bs-target="#myModal"
+          style="margin-left: 90px;">
+          Add
+        </button>
+      </div>
+    </div>
+    <div class="row pt-1">
+      <div class="col-12">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Project </th>
+              <th style="font-size: 12px;">Project Role</th>
+              <th style="font-size: 12px;">User </th>
+              <th style="font-size: 12px;">Date</th>
+              <th style="font-size: 12px;">Technical Stack</th>
+              <th style="font-size: 12px;" class="text-end">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of projectUserArray">
+              <td>{{item.projectName}}</td>
+              <td>{{item.userEmail}}</td>
+              <td>{{item.roleInProject}}</td>
+              <td>
+                {{item.addedDate | date:"dd-MM-yyyy"}}
+              </td>
+              <td>
+                {{item.technicalStack}}
+              </td>
+              <td class="text-end">
+                <button class="btn btn-sm btn-danger " (click)="deleteProjectUser(item.projectUserId )">Delete</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="col-md-1">
+</div>
+<div class="container">
+  <div class="row mt-3">
+    <div class="col-12">
+      <div class="modal" id="myModal">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Assign Project Users</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+              <div class="row">
+                <div class="col-4">
+                  <label>Project</label>
+                  <select class="form-select" name="projectId" [(ngModel)]="projectUserObj.projectId">
+                    <option value="0" disabled>Select</option>
+                    <option [value]="item.projectId" *ngFor="let item of  projectArray">
+                      {{item.shortName}}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="container border rounded mt-3">
+                <div class="row pt-2">
+                  <div class="col-4">
+                    <label>User</label>
+                    <select class="form-select" (change)="setUserEmail(innerObj.userId)" name="userId"
+                      [(ngModel)]="innerObj.userId">
+                      <option value="0" disabled>Select </option>
+                      <option [value]="item.userId" *ngFor="let item of userArray">
+                        {{item.emailId }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="col-3">
+                    <label>Role</label>
+                    <select class="form-select" (change)="setUserRole(innerObj.roleInProject)" name="roleInProject"
+                      [(ngModel)]="innerObj.roleInProject">
+                      <option value="" disabled>Select Role</option>
+                      <option *ngFor="let role of roleArray" [value]="role.roleId">{{role.role}}</option>
+                    </select>
+                  </div>
+                  <div class="col-2">
+                    <label for="">Technical Stack</label>
+                    <input type="text" name="technicalStack" #tech="ngModel" required placeholder="Enter"
+                      [(ngModel)]="innerObj.technicalStack" class="form-control">
+                    <div *ngIf="tech.touched || tech.dirty">
+                      <span class="text-danger" *ngIf="tech.errors && tech.errors['required']">This is required</span>
+                    </div>
+                  </div>
+                  <div class="col-2 pt-3">
+                    <label for="myCheck">Is Active</label>
+                    <input type="checkbox" name="isActive" [(ngModel)]="innerObj.isActive">
+                    <div class="valid-feedback">Valid.</div>
+                    <div class="invalid-feedback">Check this checkbox to continue.</div>
+                  </div>
+                  <div class="col-1 pt-3">
+                    <button class="btn btn-success btn-sm" (click)="add()">Add</button>
+                  </div>
+                </div>
+                <div class="col-12 pt-3">
+                  <table class="table table-bordered">
+                    <thead>
+                      <tr>
+                        <th>Sr</th>
+                        <th>User</th>
+                        <th>Role</th>
+                        <th>Technical Stack</th>
+                        <th>Is Active</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of projectUserObj.users, let sr=index">
+                        <td>{{sr+1}}</td>
+                        <td>{{item.emailId}}</td>
+                        <td>{{item.role}}</td>
+                        <td>{{item.technicalStack}}</td>
+                        <td>{{item.isActive}}</td>
+                        <td>
+                          <button class="btn btn-danger btn-sm" (click)="delete(sr)">Delete</button>
+                      </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-3">
+              <div class="col-12">
+                <div class="text-center mt-4">
+                  <button type="button" class="btn btn-dark btn-sm mx-3" (click)="onReset()">Reset</button>
+                  <button type="button" class="btn btn-success btn-sm" (click)="saveProjectUsers()">Save</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

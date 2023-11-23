@@ -1,0 +1,70 @@
+<div class="row">
+  <div class="col-12">
+  <div class="row pt-2">
+    <div class="col-3">
+      <h4>Search</h4>
+    </div>
+  </div>
+
+    <div class="row">
+      <div class="col-2">
+        <select class="form-control"[(ngModel)]="filterObj.projectId" name="projectId">
+           <option value="0" disabled selected>Select Project</option>
+           <option *ngFor="let item of projectArr" [value]="item.projectId">{{item.fullName}}</option>
+        </select>
+      </div>
+
+      <div class="col-2">
+        <select class="form-control" [(ngModel)]="filterObj.issueTypeId" name="issueTypeId">
+          <option value="0" disabled selected> Select Issue Type</option>
+           <option *ngFor="let item of issueArr" [value]="item.issueTypeId">{{item.issueType}}</option>
+        </select>
+      </div>
+
+      <div class="col-2">
+        <select class="form-control" [(ngModel)]="filterObj.statusId" name="statusId">
+          <option value="0" disabled selected> Select Issue Status</option>
+           <option *ngFor="let item of statusArr" [value]="item.statusId">{{item.status}}</option>
+        </select>
+      </div>
+
+      <div class="col-2">
+        <select class="form-control" [(ngModel)]="filterObj.assignedTo" name="assignedTo">
+           <option value="0" disabled selected> Assign To</option>
+           <option *ngFor="let item of userArr" [value]="item.userId">{{item.emailId}}</option>
+        </select>
+      </div>
+
+      <div class="col-2">
+        <input type="text" name="serach" id="" placeholder="contains text" class="form-control"
+        [(ngModel)]="filterObj.searchText" name="searchText">
+      </div>
+
+      <div class="col-1">
+        <div class="btn btn-sm btn-primary"(click)="filterProject()">Search</div>
+      </div>
+    </div>
+      <!-- <table class="table table-hover mt-2" >
+      <thead>
+        <tr>
+          <th>Sr No</th>
+          <th>AssignedTo</th>
+          <th>StatusId</th>
+          <th>ProjectId</th>
+          <th>IssueTypeId</th>
+          <th>Created On</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of projectArr;let index =index">
+          <td>{{index+1}}</td>
+          <td>{{item. AssignedTo|| '--'}}</td>
+          <td>{{item.StatusId || '--'}}</td>
+          <td>{{item.ProjectId || '--'}}</td>
+          <td>{{item.IssueTypeId|| '--'}}</td>
+          <td>{{item.createdDate | date:'dd-MMM-yyyy'}}</td>
+        </tr>
+      </tbody>
+    </table> -->
+  </div>
+</div>

@@ -1,0 +1,64 @@
+/*
+.has-search .form-control {
+  padding-left: 40px
+}
+
+.has-search .form-control-feedback {
+  padding-left: 10px;
+  margin-top: 8px;
+  position: absolute;
+  z-index: 2;
+  display: block;
+  width: 22px;
+  height: 22px;
+  line-height: 10px;
+  text-align: center;
+  pointer-events: none;
+  color: #aaa;
+}
+.main {
+  width: 50%;
+  margin: 50px auto;
+} */
+
+.profile{
+margin-top: 20px;
+  margin-left: 100px;
+  margin-bottom: 20px;
+  background-color: rgb(53, 59, 85);
+}
+.deletebtn{
+
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+.editbtn{
+
+  background-color: transparent;
+  border: none;
+  padding: 0;
+}
+td button:first-child {
+  margin-right: 10px;
+  padding: 7px;
+}
+/* .card {
+  width: 300px;
+  height: 200px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  box-shadow: 2px 2px 4px rgba(0,0,0,.3);
+  transition: transform .2s;
+} */
+
+/* .card:hover {
+  transform: scale(1.05);
+  box-shadow: 2px 2px 4px rgba(0,0,0,.3);
+  transition: transform .2s;
+} */
+
+.addUser {
+  position: absolute;
+  right: 25px;
+}

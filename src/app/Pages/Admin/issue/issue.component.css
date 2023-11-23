@@ -1,0 +1,83 @@
+/* .modal{
+  display: block !important;
+}
+
+.modal-dialog{
+  overflow-y: initial !important
+}
+.modal-body{
+  height: 550px;
+  overflow-y: auto;
+}
+input{
+  background-color: whitesmoke;
+  border-style: none;
+}
+select{
+  background-color: whitesmoke;
+  border-style: none;
+}
+.form-control:hover {
+  background-color: rgb(236, 235, 235);
+}
+.form-select:hover {
+  background-color: rgb(236, 235, 235);
+} */
+.project-model a {
+  font-size: 10px;
+}
+
+.status p {
+  font-size: 10px;
+}
+
+.inputbg {
+  background-color: rgb(248, 246, 247);
+}
+.img-drop {
+  color: #a5a5a6;
+  padding-top: 9px;
+  height: 1.2rem;
+  padding-right: 8px;
+}
+.inputbg:hover {
+  background-color: rgb(194, 194, 194) !important;
+}
+.deleteIcon {
+  right: 0;
+    top: 0;
+    position: absolute;
+}
+.attachment .card{
+  height: 150px;
+  width: 300px;
+}
+.attachment-card p{
+  margin: 0;
+}
+input[type="file"] {
+  display: none;
+}
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+}
+hr {
+  margin: 0.2rem 0 !important; 
+}
+.myparent {
+  height: 360px;
+    overflow-x: scroll;
+}
+.rounded-circle {
+  width: 8%;
+  padding: 2px 0;
+  margin-right: 12px;
+}
+label{
+  font-size: 14px;
+  font-weight: bold;
+  color: grey;
+}
